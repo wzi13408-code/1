@@ -1,0 +1,58 @@
+{
+  "account": {
+    "id": "demo-eu-account",
+    "name": "Demo EU Store",
+    "region": "EU",
+    "countryCode": "DE",
+    "currency": "EUR"
+  },
+  "products": [
+    {
+      "id": "sku-1",
+      "asin": "B0EUOPS001",
+      "sku": "DE-KITCHEN-001",
+      "title": "Stainless Steel Lunch Box 1.2L",
+      "marketplace": "amazon.de",
+      "category": "Kitchen",
+      "price": 24.99,
+      "currency": "EUR",
+      "inventory": 420,
+      "buyBoxShare": 0.82,
+      "conversionRate": 0.118,
+      "adSpend": 940,
+      "sales30d": 18500
+    },
+    {
+      "id": "sku-2",
+      "asin": "B0EUOPS002",
+      "sku": "FR-BEAUTY-014",
+      "title": "Vitamin C Serum 30ml",
+      "marketplace": "amazon.fr",
+      "category": "Beauty",
+      "price": 18.5,
+      "currency": "EUR",
+      "inventory": 95,
+      "buyBoxShare": 0.61,
+      "conversionRate": 0.074,
+      "adSpend": 1320,
+      "sales30d": 9700
+    }
+  ],
+  "tasks": [
+    {
+      "id": "task-1",
+      "title": "检查 GPSR 负责人信息",
+      "description": "确认德国站与法国站商品详情页均展示 EU Responsible Person。",
+      "priority": "high",
+      "status": "open"
+    },
+    {
+      "id": "task-2",
+      "title": "优化 Beauty SKU 广告词",
+      "description": "暂停高花费无转化搜索词并拆分品牌词活动。",
+      "priority": "medium",
+      "status": "open"
+    }
+  ],
+  "aiRuns": []
+}
