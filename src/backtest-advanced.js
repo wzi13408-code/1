@@ -1,0 +1,6 @@
+function logLoss(p,y,eps=1e-15){return -Math.log(Math.max(eps,Math.min(1-eps,y?p:1-p)))}
+function brier(p,y){return (p-y)**2}
+function resultProb(pred,actual){return actual==='H'?pred.home:actual==='D'?pred.draw:pred.away}
+function evaluate(rows=[]){let n=0,correct=0,brierSum=0,loss=0;for(const x of rows){if(!x.pred||!x.actual)continue;n++;const p=resultProb(x.pred,x.actual);const best=Math.max(x.pred.home,x.pred.draw,x.pred.away);const cls= x.pred.home===best?'H':x.pred.draw===best?'D':'A';if(cls===x.actual)correct++;brierSum+=brier(x.pred.home,x.actual==='H'?1:0)+brier(x.pred.draw,x.actual==='D'?1:0)+brier(x.pred.away,x.actual==='A'?1:0);loss+=-Math.log(Math.max(1e-15,p))}return {samples:n,accuracy:n?correct/n:0,brier:n?brierSum/n:0,logLoss:n?loss/n:null}}
+function walkForward(rows=[],trainSize=100,minTrain=20){const sorted=[...rows].sort((a,b)=>new Date(a.date)-new Date(b.date));const folds=[];for(let i=Math.max(minTrain,trainSize);i<sorted.length;i++){const train=sorted.slice(0,i),test=sorted[i];folds.push({trainSamples:train.length,testDate:test.date,evaluated:test})}return {folds,method:'expanding-window chronological walk-forward',leakageSafe:true}}
+module.exports={evaluate,walkForward};
