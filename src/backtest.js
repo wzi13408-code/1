@@ -1,0 +1,3 @@
+import {evaluate} from './calibration.js';
+export function walkForward(matches,predictor,{minTrain=20,step=1}={}){const results=[];for(let i=minTrain;i<matches.length;i+=step){const train=matches.slice(0,i),test=matches[i];const pred=predictor(test,train);results.push({date:test.date,prediction:pred,actual:{home:test.hg,away:test.ag,result:test.hg>test.ag?'home':test.hg===test.ag?'draw':'away'}});}return results;}
+export function scoreBacktest(results){const rows=[];for(const r of results){const p=r.prediction.result??{};for(const k of ['home','draw','away'])rows.push({probability:p[k]??0,actual:r.actual.result===k});}return evaluate(rows);}
