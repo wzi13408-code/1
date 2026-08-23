@@ -1,0 +1,1 @@
+{"name":"xt-football-engine","version":"4.0.0","private":true,"type":"module","description":"XT Engine 4.0 - probabilistic football prediction engine","main":"src/index.js","scripts":{"predict":"node src/index.js","test":"node --test","lint":"node --check src/index.js"},"engines":{"node":">=20"}}
