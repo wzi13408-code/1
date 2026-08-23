@@ -1,0 +1,5 @@
+function normalize(w){const s=Object.values(w).reduce((a,b)=>a+b,0)||1;return Object.fromEntries(Object.entries(w).map(([k,v])=>[k,v/s]));}
+function score(pred,y){const p=pred[y]??0;return -Math.log(Math.max(1e-15,p));}
+function optimize(predictions=[],step=0.05){let w={xt:0.5,market:0.25,uniform:0.25};const keys=Object.keys(w);for(let iter=0;iter<100;iter++){let best=loss(predictions,w),changed=false;for(const k of keys){for(const dir of [-1,1]){const nw={...w,[k]:Math.max(0,w[k]+dir*step)};const z=normalize(nw);const l=loss(predictions,z);if(l<best){w=z;best=l;changed=true}}}if(!changed)break}return {weights:normalize(w),logLoss:loss(predictions,w),iterations:100};}
+function loss(rows,w){if(!rows.length)return Infinity;let s=0,n=0;for(const r of rows){if(!r.actual)continue;const p={home:w.xt*r.xt.home+w.market*r.market.home+w.uniform*r.uniform.home,draw:w.xt*r.xt.draw+w.market*r.market.draw+w.uniform*r.uniform.draw,away:w.xt*r.xt.away+w.market*r.market.away+w.uniform*r.uniform.away};s+=score(p,r.actual);n++}return n?s/n:Infinity}
+module.exports={optimize};
