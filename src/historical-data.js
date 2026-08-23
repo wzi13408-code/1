@@ -1,0 +1,4 @@
+function normalizeMatch(row){return {id:row.id||`${row.date}_${row.homeTeam}_${row.awayTeam}`,date:new Date(row.date).toISOString(),homeTeam:row.homeTeam,awayTeam:row.awayTeam,homeGoals:Number(row.homeGoals),awayGoals:Number(row.awayGoals),featuresAtCutoff:row.featuresAtCutoff||null,oddsAtCutoff:row.oddsAtCutoff||null};}
+function sortAndValidate(rows=[]){const out=rows.map(normalizeMatch).sort((a,b)=>new Date(a.date)-new Date(b.date));for(let i=0;i<out.length;i++){if(!out[i].homeTeam||!out[i].awayTeam||!Number.isFinite(out[i].homeGoals)||!Number.isFinite(out[i].awayGoals))throw new Error(`Invalid historical row: ${out[i].id}`);if(i&&new Date(out[i].date)<new Date(out[i-1].date))throw new Error('Chronological ordering failure')}return out}
+function cutoff(rows,index){return rows.slice(0,index).filter(x=>new Date(x.date)<new Date(rows[index].date));}
+module.exports={normalizeMatch,sortAndValidate,cutoff};
