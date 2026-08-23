@@ -1,0 +1,4 @@
+const {blend}=require('./ensemble');
+function weightedSample(matrix,rng=Math.random){const u=rng();let c=0;for(let h=0;h<matrix.length;h++)for(let a=0;a<matrix[h].length;a++){c+=matrix[h][a];if(u<=c)return [h,a]}return [matrix.length-1,matrix[0].length-1]}
+function simulate(input={},runs=100000,rng=Math.random){const e=blend(input);const counts=Array.from({length:9},()=>Array(9).fill(0));let home=0,draw=0,away=0,over25=0,btts=0;for(let n=0;n<runs;n++){const [h,a]=weightedSample(e.matrix,rng);counts[h][a]++;if(h>a)home++;else if(h===a)draw++;else away++;if(h+a>=3)over25++;if(h>0&&a>0)btts++}const norm=x=>x/runs;return {runs,scoreCounts:counts,result:{home:norm(home),draw:norm(draw),away:norm(away),over25:norm(over25),btts:norm(btts)},ensemble:e.models,uncertainty:e.uncertainty}}
+module.exports={simulate};
